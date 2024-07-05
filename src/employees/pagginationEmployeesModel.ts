@@ -5,7 +5,7 @@ import { DefaultArgs } from "@prisma/client/runtime/library";
 export class PagginationEmployeeModel {
 	public queryParams: Prisma.EmployeesFindManyArgs<DefaultArgs> = {}; // Prisma.PositionsFindManyArgs<DefaultArgs>
 	constructor(params: IPagination) {
-		const {skip, take, filter, sotrBy} = params;
+		const {skip, take, filter, sortBy} = params;
 		if (skip) {
 			this.queryParams.skip = Number(skip);
 		}
@@ -18,9 +18,9 @@ export class PagginationEmployeeModel {
 				return acc;
 			}, {})
 		}
-		if (sotrBy) {
+		if (sortBy) {
 			this.queryParams.orderBy = {
-				[sotrBy.property]: sotrBy.value
+				[sortBy.property]: sortBy.value
 			};
 		}
 	}

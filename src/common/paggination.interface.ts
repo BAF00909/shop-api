@@ -10,5 +10,5 @@ export interface IPagination {
 	skip?: number,
 	take?: number,
 	filter?: IFilter[],
-	sotrBy?: ISortedBy
+	sortBy?: ISortedBy
 }

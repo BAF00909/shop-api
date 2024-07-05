@@ -2,8 +2,8 @@ import { IPagination } from "../common/paggination.interface";
 import { Prisma } from "@prisma/client";
 import { DefaultArgs } from "@prisma/client/runtime/library";
 
-export class PagginationPositionModel {
-	public queryParams: Prisma.PositionsFindManyArgs<DefaultArgs> = {}; // Prisma.PositionsFindManyArgs<DefaultArgs>
+export class PagginationProvidersModel {
+	public queryParams: Prisma.ProvidersFindManyArgs<DefaultArgs> = {}; // Prisma.PositionsFindManyArgs<DefaultArgs>
 	constructor(params: IPagination) {
 		const {skip, take, filter, sortBy} = params;
 		if (skip) {
