@@ -1,0 +1,1 @@
+export const NOT_FOUND = 'Запись с таким Id не найдена';

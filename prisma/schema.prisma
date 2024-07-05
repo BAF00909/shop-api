@@ -1,0 +1,128 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Employees {
+  Id               Int                @id(map: "PK_Employees") @default(autoincrement())
+  FirstName        String
+  SecondName       String
+  LastName         String
+  Birthday         DateTime           @db.Date
+  StartDate        DateTime           @db.Date
+  FinishDate       DateTime?          @db.Date
+  PositionId       Int
+  Positions        Positions          @relation(fields: [PositionId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK_Employees_Positions_PositionId")
+  OverdueProducts  OverdueProducts[]
+  ReturnedProducts ReturnedProducts[]
+  SoltProducts     SoltProducts[]
+  Supplies         Supplies[]
+
+  @@index([PositionId], map: "IX_Employees_PositionId")
+}
+
+model OverdueProducts {
+  Id                    Int       @id(map: "PK_OverdueProducts") @default(autoincrement())
+  CreateDate            DateTime  @db.Timestamptz(6)
+  ProductOverdueId      Int
+  EmployeeDecommisionId Int
+  Employees             Employees @relation(fields: [EmployeeDecommisionId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK_OverdueProducts_Employees_EmployeeDecommisionId")
+  Products              Products  @relation(fields: [ProductOverdueId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK_OverdueProducts_Products_ProductOverdueId")
+
+  @@index([EmployeeDecommisionId], map: "IX_OverdueProducts_EmployeeDecommisionId")
+  @@index([ProductOverdueId], map: "IX_OverdueProducts_ProductOverdueId")
+}
+
+model Positions {
+  Id           Int         @id(map: "PK_Positions") @default(autoincrement())
+  PositionName String
+  Employees    Employees[]
+}
+
+model ProductGroups {
+  Id        Int        @id(map: "PK_ProductGroups") @default(autoincrement())
+  GroupName String
+  Products  Products[]
+}
+
+model Products {
+  Id              Int               @id(map: "PK_Products") @default(autoincrement())
+  Art             Int
+  ProductName     String
+  DateIn          DateTime          @db.Timestamptz(6)
+  Count           Int
+  Cost            Decimal           @db.Decimal
+  ProductGroupId  Int
+  SupplyId        Int
+  OverdueProducts OverdueProducts[]
+  ProductGroups   ProductGroups     @relation(fields: [ProductGroupId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK_Products_ProductGroups_ProductGroupId")
+  Supplies        Supplies          @relation(fields: [SupplyId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK_Products_Supplies_SupplyId")
+  SoltProducts    SoltProducts[]
+
+  @@index([ProductGroupId], map: "IX_Products_ProductGroupId")
+  @@index([SupplyId], map: "IX_Products_SupplyId")
+}
+
+model Providers {
+  Id           Int        @id(map: "PK_Providers") @default(autoincrement())
+  ProviderName String
+  Supplies     Supplies[]
+}
+
+model ReasonsReturn {
+  Id               Int                @id(map: "PK_ReasonsReturn") @default(autoincrement())
+  GroupName        String
+  ReturnedProducts ReturnedProducts[]
+}
+
+model ReturnedProducts {
+  Id               Int           @id(map: "PK_ReturnedProducts") @default(autoincrement())
+  Date             DateTime      @db.Timestamptz(6)
+  SoltProductId    Int
+  ReasonReturnId   Int
+  EmployeeGetterId Int
+  Employees        Employees     @relation(fields: [EmployeeGetterId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK_ReturnedProducts_Employees_EmployeeGetterId")
+  ReasonsReturn    ReasonsReturn @relation(fields: [ReasonReturnId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK_ReturnedProducts_ReasonsReturn_ReasonReturnId")
+  SoltProducts     SoltProducts  @relation(fields: [SoltProductId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK_ReturnedProducts_SoltProducts_SoltProductId")
+
+  @@index([EmployeeGetterId], map: "IX_ReturnedProducts_EmployeeGetterId")
+  @@index([ReasonReturnId], map: "IX_ReturnedProducts_ReasonReturnId")
+  @@index([SoltProductId], map: "IX_ReturnedProducts_SoltProductId")
+}
+
+model SoltProducts {
+  Id               Int                @id(map: "PK_SoltProducts") @default(autoincrement())
+  Date             DateTime           @db.Timestamptz(6)
+  ProductId        Int
+  EmployeeId       Int
+  ReturnedProducts ReturnedProducts[]
+  Employees        Employees          @relation(fields: [EmployeeId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK_SoltProducts_Employees_EmployeeId")
+  Products         Products           @relation(fields: [ProductId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK_SoltProducts_Products_ProductId")
+
+  @@index([EmployeeId], map: "IX_SoltProducts_EmployeeId")
+  @@index([ProductId], map: "IX_SoltProducts_ProductId")
+}
+
+model Supplies {
+  Id         Int        @id(map: "PK_Supplies") @default(autoincrement())
+  Date       DateTime   @db.Timestamptz(6)
+  ProviderId Int
+  EmployeeId Int
+  Products   Products[]
+  Employees  Employees  @relation(fields: [EmployeeId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK_Supplies_Employees_EmployeeId")
+  Providers  Providers  @relation(fields: [ProviderId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK_Supplies_Providers_ProviderId")
+
+  @@index([EmployeeId], map: "IX_Supplies_EmployeeId")
+  @@index([ProviderId], map: "IX_Supplies_ProviderId")
+}
+
+model EFMigrationsHistory {
+  MigrationId    String @id(map: "PK___EFMigrationsHistory") @db.VarChar(150)
+  ProductVersion String @db.VarChar(32)
+
+  @@map("__EFMigrationsHistory")
+}
