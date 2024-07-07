@@ -1,5 +1,4 @@
-export class  SypplyCreateDto {
-  Date: Date;
+export class  SupplyCreateDto {
   ProviderId: number;
   EmployeeId: number;
 }
