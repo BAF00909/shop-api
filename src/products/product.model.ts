@@ -1,10 +1,12 @@
-import { ProductCategoryModel } from "./product-category.model";
+import { Prisma } from "@prisma/client";
 
 export class ProductModel {
-	art: number;
-	name: string;
-	price: number;
-	dateIn: Date;
-	count: number;
-	category: ProductCategoryModel;
+	Id: number;
+  Art: number;
+  ProductName: string;
+  DateIn: Date;
+  Count: number;
+  Cost: Prisma.Decimal;
+  ProductGroupId: number;
+  SupplyId: number;
 }
