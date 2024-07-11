@@ -11,7 +11,16 @@ export class ProductsRepository {
 
 	async get(params: IPagination): Promise<ProductModel[]> {
 		const {queryParams} = new PagginationProductsModel(params);
-		return await this.db.products.findMany(queryParams);
+		return await this.db.products.findMany({
+			...queryParams,
+			include: {
+				ProductGroups: {
+					select: {
+						GroupName: true
+					}
+				}
+			}
+		});
 	}
 
 	async getById(id: number): Promise<ProductModel> {
