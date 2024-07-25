@@ -3,12 +3,13 @@ import { IPagination } from 'src/common/paggination.interface';
 import { ProductModel } from './product.model';
 import { ProductsRepository } from './product.repository';
 import { ProductCreateDto } from './dto/product-create.dto';
+import { IPagingResult } from 'src/common/ipagingResult.interface';
 
 @Injectable()
 export class ProductsService {
 	constructor(private readonly repository: ProductsRepository){}
 
-	async getAllProducts(params: IPagination): Promise<ProductModel[]> {
+	async getAllProducts(params: IPagination): Promise<IPagingResult<ProductModel>> {
 		return await this.repository.get(params);
 	}
 

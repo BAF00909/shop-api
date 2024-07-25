@@ -4,6 +4,7 @@ import { HttpTransportResult } from 'src/common/httpResult.interface';
 import { ProductModel } from './product.model';
 import { IPagination } from 'src/common/paggination.interface';
 import { ProductCreateDto } from './dto/product-create.dto';
+import { IPagingResult } from 'src/common/ipagingResult.interface';
 
 @Controller('products')
 export class ProductsController {
@@ -11,7 +12,7 @@ export class ProductsController {
 
 	@HttpCode(200)
 	@Get('all')
-	async getAll(@Query() params: IPagination): Promise<HttpTransportResult<ProductModel[]>> {
+	async getAll(@Query() params: IPagination): Promise<HttpTransportResult<IPagingResult<ProductModel>>> {
 		try {
 			const result = await this.service.getAllProducts(params);
 			return ({result})

@@ -4,23 +4,31 @@ import { PrismaService } from "src/prisma/prisma.service";
 import { ProductModel } from "./product.model";
 import { PagginationProductsModel } from "./pagginationProductsModel";
 import { ProductCreateDto } from "./dto/product-create.dto";
+import { IPagingResult } from "src/common/ipagingResult.interface";
 
 @Injectable()
 export class ProductsRepository {
 	constructor(private readonly db: PrismaService){}
 
-	async get(params: IPagination): Promise<ProductModel[]> {
+	async get(params: IPagination): Promise<IPagingResult<ProductModel>> {
 		const {queryParams} = new PagginationProductsModel(params);
-		return await this.db.products.findMany({
-			...queryParams,
-			include: {
-				ProductGroups: {
-					select: {
-						GroupName: true
+		let totalPage: number = 0;
+		if (queryParams.take) {
+			totalPage = await this.db.products.count();
+		}
+		return {
+			list: await this.db.products.findMany({
+				...queryParams,
+				include: {
+					ProductGroups: {
+						select: {
+							GroupName: true
+						}
 					}
 				}
-			}
-		});
+			}),
+			totalPage
+		};
 	}
 
 	async getById(id: number): Promise<ProductModel> {
