@@ -3,7 +3,8 @@ import { PrismaService } from "src/prisma/prisma.service";
 import { EmployeeDto } from "./dto/employee.dto";
 import { EmployeeModel } from "./employee.model";
 import { IPagination } from "src/common/paggination.interface";
-import { PagginationEmployeeModel } from "./pagginationEmployeesModel";
+import { UniversalQueryArgs } from "src/common/QueryBuilder";
+import { Prisma } from "@prisma/client";
 
 @Injectable()
 export class EmployeeRepository {
@@ -23,7 +24,7 @@ export class EmployeeRepository {
 	}
 
 	async get(params: IPagination): Promise<EmployeeModel[]> {
-		const {queryParams} = new PagginationEmployeeModel(params);
+		const queryParams = new UniversalQueryArgs<Prisma.EmployeesFindManyArgs>(params, {}).getArgs();
 		return await this.db.employees.findMany(queryParams);
 	}
 

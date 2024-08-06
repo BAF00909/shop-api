@@ -7,6 +7,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//npx prisma migrate dev --name init
+
 model Employees {
   Id               Int                @id(map: "PK_Employees") @default(autoincrement())
   FirstName        String

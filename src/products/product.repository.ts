@@ -2,16 +2,17 @@ import { Injectable } from "@nestjs/common";
 import { IPagination } from "src/common/paggination.interface";
 import { PrismaService } from "src/prisma/prisma.service";
 import { ProductModel } from "./product.model";
-import { PagginationProductsModel } from "./pagginationProductsModel";
 import { ProductCreateDto } from "./dto/product-create.dto";
 import { IPagingResult } from "src/common/ipagingResult.interface";
+import { UniversalQueryArgs } from "src/common/QueryBuilder";
+import { Prisma } from "@prisma/client";
 
 @Injectable()
 export class ProductsRepository {
 	constructor(private readonly db: PrismaService){}
 
 	async get(params: IPagination): Promise<IPagingResult<ProductModel>> {
-		const {queryParams} = new PagginationProductsModel(params);
+		const queryParams = new UniversalQueryArgs<Prisma.ProductsFindManyArgs>(params, {}).getArgs();
 		let totalPage: number = 0;
 		if (queryParams.take) {
 			totalPage = await this.db.products.count();

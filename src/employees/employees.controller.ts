@@ -1,16 +1,18 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, Post, Put, Query, UsePipes } from '@nestjs/common';
 import { EmployeesService } from './employees.service';
 import { HttpTransportResult } from 'src/common/httpResult.interface';
 import { EmployeeModel } from './employee.model';
 import { NOT_FOUND } from 'src/positions/errors';
 import { EmployeeDto } from './dto/employee.dto';
 import { IPagination } from 'src/common/paggination.interface';
+import { PipeTransformId } from 'src/pipes/PipeTransformId';
 
 @Controller('employees')
 export class EmployeesController {
 	constructor(private readonly employeesService: EmployeesService) {}
 
 	@Get('all')
+	@UsePipes(PipeTransformId)
 	async getEmployees(@Query() params: IPagination): Promise<HttpTransportResult<EmployeeModel[]>> {
 		const result = await this.employeesService.getEmployeesAll(params);
 		return ({result})

@@ -7,8 +7,8 @@ export interface ISortedBy {
 	value: 'desc' | 'asc',
 }
 export interface IPagination {
-	skip?: number,
-	take?: number,
+	skip?: string,
+	take?: string,
 	filter?: IFilter[],
 	sortBy?: ISortedBy
 }

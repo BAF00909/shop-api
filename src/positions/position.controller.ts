@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, Patch, Post, Query, UsePipes } from '@nestjs/common';
 import { PositionDto } from './dto/position.dto';
 import { PositionModel } from './position.model';
 import { PositionsService } from './positions.service';
 import { HttpTransportResult } from '../common/httpResult.interface';
 import { NOT_FOUND } from './errors';
 import { IPagination } from 'src/common/paggination.interface';
+import { PipeTransformId } from 'src/pipes/PipeTransformId';
 
 @Controller('position')
 export class PositionController {
@@ -13,6 +14,7 @@ export class PositionController {
 
 	@HttpCode(200)
 	@Get('all')
+	@UsePipes(PipeTransformId)
 	async getPositions(@Query() params: IPagination): Promise<HttpTransportResult<PositionModel[]>> {
 		const result = await this.positionsService.getAllPositions(params);
 		return ({result});

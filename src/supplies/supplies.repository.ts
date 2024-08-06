@@ -2,14 +2,15 @@ import { Injectable } from "@nestjs/common";
 import { IPagination } from "src/common/paggination.interface";
 import { PrismaService } from "src/prisma/prisma.service";
 import { SupplyModel } from "./supply.model";
-import { PagginationSuppliesModel } from "./pagginationSuppliesModel";
 import { SupplyCreateDto } from "./dto/supply-create.dto";
+import { UniversalQueryArgs } from "src/common/QueryBuilder";
+import { Prisma } from "@prisma/client";
 
 @Injectable()
 export class SupplyRepository {
 	constructor(private readonly db: PrismaService){}
 	async get(params: IPagination): Promise<SupplyModel[]> {
-		const {queryParams} = new PagginationSuppliesModel(params);
+		const queryParams = new UniversalQueryArgs<Prisma.SuppliesFindManyArgs>(params, {}).getArgs();
 		return await this.db.supplies.findMany(queryParams);
 	}
 	async getById(id: number): Promise<SupplyModel> {

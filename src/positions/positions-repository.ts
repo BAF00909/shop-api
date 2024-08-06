@@ -3,7 +3,8 @@ import { PositionDto } from "./dto/position.dto";
 import { PositionModel } from "./position.model";
 import { Injectable } from "@nestjs/common";
 import { IPagination } from "src/common/paggination.interface";
-import { PagginationPositionModel } from "src/positions/pagginationPositionModel";
+import { UniversalQueryArgs } from "src/common/QueryBuilder";
+import { Prisma } from "@prisma/client";
 
 @Injectable()
 export class PositionsRepository {
@@ -18,7 +19,7 @@ export class PositionsRepository {
 	}
 
 	async get(params: IPagination): Promise<PositionModel[]> {
-		const {queryParams} = new PagginationPositionModel(params);
+		const queryParams = new UniversalQueryArgs<Prisma.PositionsFindManyArgs>(params, {}).getArgs();
 		return await this.db.positions.findMany(queryParams);
 	}
 

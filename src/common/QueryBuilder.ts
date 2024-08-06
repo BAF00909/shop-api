@@ -1,0 +1,48 @@
+import { IPagination } from './paggination.interface';
+
+
+export class UniversalQueryArgs<T> {
+  args: T;
+
+  constructor(queryParams: IPagination, baseArgs: T) {
+    this.args = { ...baseArgs } as T;
+    // Пагинация
+    if (queryParams.skip && queryParams.take) {
+      const skip = parseInt(queryParams.skip, 10);
+      const take = parseInt(queryParams.take, 10);
+      this.args = {
+        ...this.args,
+        skip,
+        take,
+      };
+    }
+
+    // Сортировка
+    if (queryParams.sortBy) {
+      this.args = {
+        ...this.args,
+        orderBy: {
+          [queryParams.sortBy.property]: queryParams.sortBy.value,
+        },
+      };
+    }
+
+    // Фильтрация
+    if (queryParams.filter) {
+      queryParams.filter.forEach((filter) => {
+        this.args = {
+          ...this.args,
+          where: {
+            ...this.args['where'],
+            [filter.property]: Array.isArray(filter.value) ? { in: filter.value } : filter.value,
+          },
+        };
+      });
+    }
+  }
+
+  getArgs(): T {
+    return this.args;
+  }
+}
+

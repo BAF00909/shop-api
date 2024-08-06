@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, Post, Put, Query, UsePipes } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { HttpTransportResult } from 'src/common/httpResult.interface';
 import { ProductModel } from './product.model';
 import { IPagination } from 'src/common/paggination.interface';
 import { ProductCreateDto } from './dto/product-create.dto';
 import { IPagingResult } from 'src/common/ipagingResult.interface';
+import { PipeTransformId } from 'src/pipes/PipeTransformId';
 
 @Controller('products')
 export class ProductsController {
@@ -12,6 +13,7 @@ export class ProductsController {
 
 	@HttpCode(200)
 	@Get('all')
+	@UsePipes(PipeTransformId)
 	async getAll(@Query() params: IPagination): Promise<HttpTransportResult<IPagingResult<ProductModel>>> {
 		try {
 			const result = await this.service.getAllProducts(params);

@@ -2,15 +2,16 @@ import { Injectable } from "@nestjs/common";
 import { IPagination } from "src/common/paggination.interface";
 import { PrismaService } from "src/prisma/prisma.service";
 import { ProviderModel } from "./providerModel";
-import { PagginationProvidersModel } from "./pagginationProvidersModel";
 import { ProviderCreateDto } from "./dto/provider-create-dto";
+import { UniversalQueryArgs } from "src/common/QueryBuilder";
+import { Prisma } from "@prisma/client";
 
 @Injectable()
 export class ProvidersRepository {
 	constructor(private readonly db: PrismaService){}
 
 	async get(params: IPagination): Promise<ProviderModel[]>{
-		const {queryParams} = new PagginationProvidersModel(params);
+		const queryParams = new UniversalQueryArgs<Prisma.ProvidersFindManyArgs>(params, {}).getArgs();
 		return this.db.providers.findMany(queryParams);
 	}
 

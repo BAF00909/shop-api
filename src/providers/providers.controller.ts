@@ -1,15 +1,17 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, Post, Put, Query, UsePipes } from '@nestjs/common';
 import { HttpTransportResult } from 'src/common/httpResult.interface';
 import { ProviderModel } from './providerModel';
 import { ProvidersService } from './providers.service';
 import { IPagination } from 'src/common/paggination.interface';
 import { ProviderCreateDto } from './dto/provider-create-dto';
+import { PipeTransformId } from 'src/pipes/PipeTransformId';
 
 @Controller('providers')
 export class ProvidersController {
 	constructor(private readonly service: ProvidersService){}
 	@HttpCode(200)
 	@Get('/all')
+	@UsePipes(PipeTransformId)
 	async getProviders(@Query() params: IPagination): Promise<HttpTransportResult<ProviderModel[]>>{
 		const result = await this.service.getAll(params);
 		return ({result});
