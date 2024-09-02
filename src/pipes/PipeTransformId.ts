@@ -7,7 +7,7 @@ export class PipeTransformId implements PipeTransform {
 		const {type} = metadata;
 		if (type === 'query' && newValue?.filter) {
 			newValue.filter = newValue.filter.map(item => {
-				if (item.property === 'Id') {
+				if (item.property === 'Id' || item.property === 'Art') {
 					item.value = !isNaN(parseInt(item.value)) ? parseInt(item.value) : item.value;
 				}
 				return item

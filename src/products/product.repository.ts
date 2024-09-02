@@ -15,7 +15,7 @@ export class ProductsRepository {
 		const queryParams = new UniversalQueryArgs<Prisma.ProductsFindManyArgs>(params, {}).getArgs();
 		let totalPage: number = 0;
 		if (queryParams.take) {
-			totalPage = await this.db.products.count();
+			totalPage = Math.round(await this.db.products.count({where: {...queryParams?.where}}) / queryParams.take + 1);
 		}
 		return {
 			list: await this.db.products.findMany({
@@ -24,6 +24,16 @@ export class ProductsRepository {
 					ProductGroups: {
 						select: {
 							GroupName: true
+						}
+					},
+					Supplies: {
+						select: {
+							Date: true,
+							Providers: {
+								select: {
+									ProviderName: true
+								}
+							}
 						}
 					}
 				}
