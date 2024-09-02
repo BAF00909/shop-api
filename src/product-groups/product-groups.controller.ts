@@ -4,7 +4,6 @@ import { HttpTransportResult } from 'src/common/httpResult.interface';
 import { ProductGroup } from './product-group.model';
 import { IPagination } from 'src/common/paggination.interface';
 import { ProductGroupCreateDto } from './dto/product-group-create.dto';
-import { PipeTransformId } from 'src/pipes/PipeTransformId';
 
 @Controller('product-groups')
 export class ProductGroupsController {
@@ -12,7 +11,6 @@ export class ProductGroupsController {
 
 	@HttpCode(200)
 	@Get('all')
-	@UsePipes(PipeTransformId)
 	async getAll(@Query() params: IPagination): Promise<HttpTransportResult<ProductGroup[]>> {
 		try {
 			const result = await this.service.getAll(params);

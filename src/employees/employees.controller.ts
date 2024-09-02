@@ -5,14 +5,14 @@ import { EmployeeModel } from './employee.model';
 import { NOT_FOUND } from 'src/positions/errors';
 import { EmployeeDto } from './dto/employee.dto';
 import { IPagination } from 'src/common/paggination.interface';
-import { PipeTransformId } from 'src/pipes/PipeTransformId';
+import { PipeTransformFilter } from 'src/pipes/PipeTransformFilter';
 
 @Controller('employees')
 export class EmployeesController {
 	constructor(private readonly employeesService: EmployeesService) {}
 
 	@Get('all')
-	@UsePipes(PipeTransformId)
+	@UsePipes(PipeTransformFilter)
 	async getEmployees(@Query() params: IPagination): Promise<HttpTransportResult<EmployeeModel[]>> {
 		const result = await this.employeesService.getEmployeesAll(params);
 		return ({result})

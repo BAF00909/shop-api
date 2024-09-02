@@ -112,6 +112,7 @@ model SoltProducts {
 model Supplies {
   Id         Int        @id(map: "PK_Supplies") @default(autoincrement())
   Date       DateTime   @db.Timestamptz(6)
+  Number     Int        @default(autoincrement())
   ProviderId Int
   EmployeeId Int
   Products   Products[]

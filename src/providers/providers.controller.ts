@@ -4,14 +4,12 @@ import { ProviderModel } from './providerModel';
 import { ProvidersService } from './providers.service';
 import { IPagination } from 'src/common/paggination.interface';
 import { ProviderCreateDto } from './dto/provider-create-dto';
-import { PipeTransformId } from 'src/pipes/PipeTransformId';
 
 @Controller('providers')
 export class ProvidersController {
 	constructor(private readonly service: ProvidersService){}
 	@HttpCode(200)
 	@Get('/all')
-	@UsePipes(PipeTransformId)
 	async getProviders(@Query() params: IPagination): Promise<HttpTransportResult<ProviderModel[]>>{
 		const result = await this.service.getAll(params);
 		return ({result});

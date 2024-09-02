@@ -5,7 +5,7 @@ import { PositionsService } from './positions.service';
 import { HttpTransportResult } from '../common/httpResult.interface';
 import { NOT_FOUND } from './errors';
 import { IPagination } from 'src/common/paggination.interface';
-import { PipeTransformId } from 'src/pipes/PipeTransformId';
+import { PipeTransformFilter } from 'src/pipes/PipeTransformFilter';
 
 @Controller('position')
 export class PositionController {
@@ -14,7 +14,7 @@ export class PositionController {
 
 	@HttpCode(200)
 	@Get('all')
-	@UsePipes(PipeTransformId)
+	@UsePipes(PipeTransformFilter)
 	async getPositions(@Query() params: IPagination): Promise<HttpTransportResult<PositionModel[]>> {
 		const result = await this.positionsService.getAllPositions(params);
 		return ({result});

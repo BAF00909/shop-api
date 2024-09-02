@@ -15,7 +15,7 @@ export class ProductsRepository {
 		const queryParams = new UniversalQueryArgs<Prisma.ProductsFindManyArgs>(params, {}).getArgs();
 		let totalPage: number = 0;
 		if (queryParams.take) {
-			totalPage = Math.round(await this.db.products.count({where: {...queryParams?.where}}) / queryParams.take + 1);
+			totalPage = Math.ceil(await this.db.products.count({where: {...queryParams?.where}}) / queryParams.take);
 		}
 		return {
 			list: await this.db.products.findMany({

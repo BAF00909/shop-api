@@ -4,7 +4,6 @@ import { IPagination } from 'src/common/paggination.interface';
 import { ReasonReturnModel } from './reason-return-model';
 import { ReasonReturnService } from './reason-return.service';
 import { ReasonReturnDto } from './dto/reason-return-create.dto';
-import { PipeTransformId } from 'src/pipes/PipeTransformId';
 
 @Controller('reason-return')
 export class ReasonReturnController {
@@ -12,7 +11,6 @@ export class ReasonReturnController {
 
 	@HttpCode(200)
 	@Get('all')
-	@UsePipes(PipeTransformId)
 	async getAll(@Query() params: IPagination): Promise<HttpTransportResult<ReasonReturnModel[]>> {
 		try {
 			const result = await this.service.getAll(params);
