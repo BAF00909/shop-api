@@ -35,6 +35,10 @@ export class ProductsRepository {
 								}
 							}
 						}
+						//,
+						// include: {
+						// 	Providers: true
+						// }
 					}
 				}
 			}),

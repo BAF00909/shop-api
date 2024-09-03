@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Products" ALTER COLUMN "DateIn" SET DATA TYPE DATE;

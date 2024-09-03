@@ -55,7 +55,7 @@ model Products {
   Id              Int               @id(map: "PK_Products") @default(autoincrement())
   Art             Int
   ProductName     String
-  DateIn          DateTime          @db.Timestamptz(6)
+  DateIn          DateTime          @db.Date
   Count           Int
   Cost            Decimal           @db.Decimal
   ProductGroupId  Int

@@ -23,6 +23,7 @@ async function main() {
 			{GroupName: 'Фрукты'},
 			{GroupName: 'Без. алкогольные напитки'},
 			{GroupName: 'Молоко'},
+			{GroupName: 'Колбаса'},
 		]
 	});
 	const providers = await prisma.providers.createMany({
@@ -76,6 +77,11 @@ async function main() {
 				Date: '2024-08-06T13:05:00Z',
 				EmployeeId: 2,
 				ProviderId: 4
+			},
+			{
+				Date: '2024-09-03T09:05:00Z',
+				EmployeeId: 2,
+				ProviderId: 1
 			}
 		]
 	});
@@ -146,39 +152,39 @@ async function main() {
 			},
 			{
 				Art: 107,
-				ProductName: 'Хлеб белый',
-				ProductGroupId: 1,
-				Cost: 32,
+				ProductName: 'Колбаса',
+				ProductGroupId: 7,
+				Cost: 500,
 				DateIn: '2024-08-06T14:05:00Z',
 				Count: 1,
-				SupplyId: 1
+				SupplyId: 2
 			},
 			{
 				Art: 108,
-				ProductName: 'Хлеб белый',
-				ProductGroupId: 1,
-				Cost: 32,
+				ProductName: 'Колбаса',
+				ProductGroupId: 7,
+				Cost: 500,
 				DateIn: '2024-08-06T14:05:00Z',
 				Count: 1,
-				SupplyId: 1
+				SupplyId: 2
 			},
 			{
 				Art: 109,
-				ProductName: 'Хлеб белый',
-				ProductGroupId: 1,
-				Cost: 32,
+				ProductName: 'Колбаса',
+				ProductGroupId: 7,
+				Cost: 200,
 				DateIn: '2024-08-06T14:05:00Z',
 				Count: 1,
-				SupplyId: 1
+				SupplyId: 2
 			},
 			{
 				Art: 110,
-				ProductName: 'Хлеб белый',
-				ProductGroupId: 1,
-				Cost: 32,
+				ProductName: 'Колбаса',
+				ProductGroupId: 7,
+				Cost: 200,
 				DateIn: '2024-08-06T14:05:00Z',
 				Count: 1,
-				SupplyId: 1
+				SupplyId: 2
 			}
 		]
 	});
